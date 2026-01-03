@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الروزنامة اللولو حمودية</title>
+  <!-- وسم مهم لتناسب الصفحة مع الموبايل -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="grid">
+
+<div class="row row-2 الصف_صفر">
+  <div class="cell" id="التاريخ هجري" dir="rtl"></div> <! هذا يفرض اتجاه النص داخل العنصر ليكون من اليمين لليسار>
+  <div class="cell" id="التاريخ ميلادي"></div>
+</div>
+
+<div class="row الصف_الأول">
+  <div class="cell year" id="السنة هجري"></div>
+  <div class="cell" id="اسم اليوم"></div>
+  <div class="cell year" id="السنة ميلادي"></div>
+</div>
+
+<div class="row row-2 الصف_الثاني">
+      <div class="cell" id="اسم الشهر هجري">eee</div>     
+      <div class="cell" id="اسم الشهر ميلادي">nnn</div>
+</div>
+
+<div class="row row-2 الصف_الثالث">
+      <div class="cell" id="اليوم هجري"  dir="rtl">eee</div>     
+      <div class="cell" id="اليوم ميلادي"  dir="rtl">nnn</div>
+</div>
+
+<div class="row row-3 الصف_الرابع">
+      <div class="cell" id="الوقت الحالي">now</div>     
+      <div class="cell" id="باقي للصلاة">nnn</div>
+      <div class="cell" id="باقي لإقامة الصلاة">nnn</div>
+</div>
+
+<div class="row row-3 عناوين_الصف_الخامس">
+  <div class="cell" id="عنوان الفجر">الفجر</div>
+  <div class="cell" id="عنوان الشروق">الشروق</div>
+  <div class="cell" id="عنوان الظهر">الظهر</div>
+</div>
+
+<div class="row row-3 الصف_الخامس">
+  <div class="cell" id="الفجر"></div>
+  <div class="cell" id="الشروق"></div>
+  <div class="cell" id="الظهر"></div>
+</div>
+
+<div class="row row-3 عناوين_الصف_السادس">
+  <div class="cell" id="عنوان العصر">العصر</div>
+  <div class="cell" id="عنوان المغرب">المغرب</div>
+  <div class="cell" id="عنوان العشاء">العشاء</div>
+</div>
+
+<div class="row row-3 الصف_السادس">
+  <div class="cell" id="العصر"></div>
+  <div class="cell" id="المغرب"></div>
+  <div class="cell" id="العشاء"></div>
+</div>
+
+
+
+
+<!نزّل ملف المكتبة Hijri.js ثم اربطه هكذا>
+<script src="Hijri.js"></script>
+<script>
+  // دالة لتحويل الأرقام إلى عربية
+  function toArabicNumbers(num) {
+    return num.toString().replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+  }
+
+  // التاريخ الميلادي
+  document.getElementById("التاريخ ميلادي").textContent = new Date().toLocaleDateString('ar-SY') + " م";
+
+
+  // التاريخ الهجري ككائن
+  const hijriObj = HijriJS.today();
+
+// أسماء الأشهر الهجرية بالعربية 
+const monthArabicHIJRI = [
+ "محرم","صفر","ربيع الأول","ربيع الآخر", "جمادى الأولى","جمادى الآخرة","رجب","شعبان", "رمضان","شوال","ذو القعدة","ذو الحجة" 
+];
+
+// أسماء الأيام بالعربية 
+const DAYsArabic = [
+ "ٱلْأَحَدُ",
+"ٱلْإِثْنَيْنِ",
+"ٱلثُّلَاثَاءُ",
+"ٱلْأَرْبِعَاءُ",
+"ٱلْخَمِيسُ",
+"ٱلْجُمُعَةُ",
+"ٱلسَّبْتُ"
+];
+
+  // أسماء الأشهر بالعربية (الشام/لبنان)
+  const monthsNAMEArabic = [
+    "كانون الثاني","شباط","آذار","نيسان","أيار","حزيران",
+    "تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"
+  ];
+
+  // أسماء الأشهر بالمصري (المستخدمة في مصر)
+  const monthsEgyptian = [
+    "يناير","فبراير","مارس","أبريل","مايو","يونيو",
+    "يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"
+  ];
+
+  // أسماء الأشهر بالإنجليزية
+  const monthsEnglish = [
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+  ];
+
+// الحصول على اليوم الحالي (0 = الأحد ... 6 = السبت) 
+const todayIndex = new Date().getDay(); 
+const todayNameArabic = DAYsArabic[todayIndex];
+
+  // استخراج اليوم، الشهر (رقم)، السنة
+    
+  const day = toArabicNumbers(hijriObj.day);      // رقم اليوم
+  const month = toArabicNumbers(hijriObj.month);  // رقم الشهر (1-12)
+  const year = toArabicNumbers(hijriObj.year);    // السنة
+
+  // بناء النص العربي: يوم/شهر/سنة
+
+ const hijriDateArabic = `${year}/${month}/${day} هـ`;
+// الحصول على الشهر الحالي
+  const today = new Date();
+  const monthIndex = today.getMonth(); // 0-11
+  const monthNumber = monthIndex + 1;  // 1-12
+  const dayNumber = today.getDate();   // الحصول على اليوم الحالي (رقم اليوم في الشهر) 
+  const currentYear = new Date().getFullYear();
+
+
+  // بناء النص المطلوب
+  const monthText = `${monthsNAMEArabic[monthIndex]} - ${toArabicNumbers(monthNumber)} - ${monthsEgyptian[monthIndex]} - ${monthsEnglish[monthIndex]}`;
+
+
+  // عرض التاريخ الهجري
+  document.getElementById("التاريخ هجري").textContent = hijriDateArabic;
+  document.getElementById("السنة هجري").textContent = toArabicNumbers(hijriObj.year) + " هـ";
+  document.getElementById("السنة ميلادي").textContent = toArabicNumbers(currentYear) + " م";
+  document.getElementById("اليوم هجري").textContent = toArabicNumbers(hijriObj.day);
+  document.getElementById("اليوم ميلادي").textContent = toArabicNumbers(dayNumber);  
+  document.getElementById("اسم الشهر هجري").textContent = monthArabicHIJRI[hijriObj.month - 1] + " - " + toArabicNumbers(hijriObj.month);
+  document.getElementById("اسم اليوم").textContent = todayNameArabic;
+  document.getElementById("اسم الشهر ميلادي").textContent = monthText;
+
+setInterval(() => {
+  const now = new Date();
+  document.getElementById("الوقت الحالي").textContent = "الآن " +
+    now.getHours() + ":" +
+    now.getMinutes().toString().padStart(2,'0') + ":" +
+    now.getSeconds().toString().padStart(2,'0');
+}, 1000);
+  
+</script>
+
+
+<input type="file" id="uploadExcel" accept=".xlsx,.xls" style="display:none;" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="baki.js"></script>
+
+</body>
+</html>
